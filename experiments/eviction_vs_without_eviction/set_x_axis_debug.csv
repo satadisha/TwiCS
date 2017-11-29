@@ -1,0 +1,20 @@
+,2nd Iteration Candidates,TweetSentence,annotation,entry_batch,hashtags,phase1Candidates,sentID,tweetID,user,completeness
+0,"['report', 'fisa court', 'fbi', 'look', 'comey', 'obama']","Report: FISA court approved FBI's @Twitter, Look ≡ƒæÇ at Comey, Obama.","['fisa', 'comey', 'obama']",7,nan,FISA::*1*||FBI's::*4*||Look::*6*||Comey::*9*||Obama::*10*||,0,357,MorvantCheryl,False
+1,['msm'],WAKE UP MSM.,['msm'],7,nan,nan,4,377,bonecho5,False
+2,['carter page fisa'],This week: Carter Page FISA warrant,"['carter page', 'fisa']",8,nan,Carter Page FISA::*2*3*4*||,3,449,sicsemp4ever,False
+3,"['james comey', 'carter page fisa']",James Comey should resign at @FBI unless he was lied to about Carter Page FISA warrant.,"['james comey', 'carter page', 'fisa']",9,nypost,James Comey::*0*1*||Carter Page FISA::*12*13*14*||,0,452,SteveWCarlson,False
+4,"['msm', 'carter page', 'moscow', 'gop']",Where was the MSM when Carter Page was jetting off to Moscow for marching orders a week before the GOP convention?,"['msm', 'carter page', 'moscow', 'gop']",9,nan,MSM::*3*||Carter Page::*5*6*||Moscow::*11*||GOP::*19*||,0,457,Picassokat,False
+5,"['obama', 'trump']",Obama was surveilling Trump advisors!,"['obama', 'trump']",10,nan,Trump::*3*||,1,512,DoghouseDano,False
+6,"['party', 'msm', 'people']","Corrupt pigs benefiting from 2-party MSM fawns selling BS to people who trust them, negotiating.",['msm'],11,nan,2-party MSM::*4*5*||,1,556,phpress,False
+7,"['obama', 'american', 'people']",OBAMA HAS FAILED THE AMERICAN PEOPLE!,"['obama', 'american people']",12,nan,nan,0,602,IrresistibleDJT,False
+8,['look'],cc @MarkAmodeiNV2 take a good look.,[],13,VoteAmodeiOut,,0,684,LVAnnie,False
+9,"['answer', 'god']","We will ALL HAVE TO ANSWER TO GOD, EVEN YOU @realDonaldTrump",[],15,"ahca, gopkillspeople, thegop",ANSWER::*5*||GOD::*7*||,0,755,blissful1985,False
+10,['answer'],Answer is obvious.,[],15,nan,,1,762,TheKrothRoads,False
+11,"['look', 'voted']",Look at the shit-eating grin on this disgusting worm who voted today to destroy the lives of hundreds of thousands of his constituents.,[],15,nan,,0,771,up_in_the_Jer,False
+12,"['american', 'people', 'getting', 'obama']",how much of this has to do with the American people and their lives vs. Getting revenge on Obama,"['american', 'obama']",15,"AHCA, shameonyou, preexistingconditions",American::*9*||Getting::*15*||Obama::*18*||,0,775,mummadi123,False
+13,['answer'],Answer here:  @FrankieDarcell @LesterHoltNBC @NBCNightlyNews,[],15,obamacare,,1,784,wdasfm,False
+14,"['god', 'get', 'people']",God won't let you get away with hurting so many people over healthcare,[],16,nan,,1,804,melinda_lu18,False
+15,['look'],That he would look out for you.,[],16,AHCA,,1,821,beautifullynerd,False
+16,['obama'],Pretty much everything Obama did.,[],18,"AHCA, Obamacare",nan,2,915,kohljm,False
+45,['look'],Oh look.,[],19,AHCA,,0,968,dlbvet,False
+92,"['rep', 'joe']",My   is Rep. Joe Kennedy.,['rep. joe kennedy'],19,"mentalhealthmonth, crush, AHCA",nan,0,994,citizen_spatzi,False
