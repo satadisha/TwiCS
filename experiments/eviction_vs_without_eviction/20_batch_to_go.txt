@@ -1,0 +1,626 @@
+In Phase 2 31363
+In Phase 2 43783
+In Phase 2 44440
+In Phase 2 49081
+In Phase 2 57903
+In Phase 2 64313
+In Phase 2 67335
+In Phase 2 70809
+In Phase 2 74157
+Wrote profile results to phase2_Trie.py.lprof
+Timer unit: 1e-06 s
+
+Total time: 1.42666 s
+File: phase2_Trie.py
+Function: rreplace at line 44
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    44                                               @profile
+    45                                               def rreplace(self,s, old, new, occurrence):
+    46   1688727       881064      0.5     61.8          if s.endswith(old):
+    47     43803        34051      0.8      2.4              li = s.rsplit(old, occurrence)
+    48     43803        19799      0.5      1.4              return new.join(li)
+    49                                                   else:
+    50   1644924       491748      0.3     34.5              return s
+
+Total time: 68.5508 s
+File: phase2_Trie.py
+Function: get_incomplete_tweets_frame at line 54
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    54                                               @profile
+    55                                               def get_incomplete_tweets_frame(self,data_frame_holder,candidate_featureBase_DF):
+    56                                                   #print(candidate_featureBase_DF.head())
+    57                                           
+    58         8        17332   2166.5      0.0          good_candidates=candidate_featureBase_DF[candidate_featureBase_DF.status=="g"].candidate.tolist()
+    59         8        12998   1624.8      0.0          bad_candidates=candidate_featureBase_DF[candidate_featureBase_DF.status=="b"].candidate.tolist()
+    60                                           
+    61         8          294     36.8      0.0          mixed_candidates= good_candidates + bad_candidates
+    62                                           
+    63                                                   #incomplete_tweets=self.data_frame_holder[set(self.data_frame_holder[0]).issubset(['a', 'b', 'c'] )]
+    64                                           
+    65         8     68483441 8560430.1     99.9          data_frame_holder['completeness'] = data_frame_holder['2nd Iteration Candidates'].apply(lambda x: set(x).issubset(mixed_candidates))
+    66                                           
+    67         8        36775   4596.9      0.1          return data_frame_holder[data_frame_holder.completeness==False]
+
+Total time: 3.10196 s
+File: phase2_Trie.py
+Function: set_readable_labels at line 70
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    70                                               @profile
+    71                                               def set_readable_labels(self,candidate_featureBase_DF):
+    72                                           
+    73                                                   #candidate_featureBase_DF['status'] = candidate_featureBase_DF['probability'].apply(lambda x: set(x).issubset(good_candidates))
+    74         8         5435    679.4      0.2          candidate_featureBase_DF['status']='ne'
+    75         8      1036088 129511.0     33.4          candidate_featureBase_DF['status'][candidate_featureBase_DF['probability']>=0.75]='g'
+    76         8      1033884 129235.5     33.3          candidate_featureBase_DF['status'][(candidate_featureBase_DF['probability'] > 0.4) & (candidate_featureBase_DF['probability'] < 0.75)] = 'a'
+    77         8      1026541 128317.6     33.1          candidate_featureBase_DF['status'][candidate_featureBase_DF['probability']<=0.4]='b'
+    78                                           
+    79         8            9      1.1      0.0          return candidate_featureBase_DF
+
+Total time: 46.8095 s
+File: phase2_Trie.py
+Function: normalize at line 82
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    82                                               @profile
+    83                                               def normalize(self,word):
+    84  13057275      5105194      0.4     10.9          strip_op=word
+    85  13057275     14788891      1.1     31.6          strip_op=(((strip_op.lstrip(string.punctuation)).rstrip(string.punctuation)).strip()).lower()
+    86  13057275      8542848      0.7     18.3          strip_op=(strip_op.lstrip('“‘’”')).rstrip('“‘’”')
+    87                                                   #strip_op= self.rreplace(self.rreplace(self.rreplace(strip_op,"'s","",1),"’s","",1),"’s","",1)
+    88  13057275      7029275      0.5     15.0          if strip_op.endswith("'s"):
+    89    210968       197366      0.9      0.4              li = strip_op.rsplit("'s", 1)
+    90    210968       118921      0.6      0.3              return ''.join(li)
+    91  12846307      6486768      0.5     13.9          elif strip_op.endswith("’s"):
+    92      6188         6072      1.0      0.0              li = strip_op.rsplit("’s", 1)
+    93      6188         3634      0.6      0.0              return ''.join(li)
+    94                                                   else:
+    95  12840119      4530484      0.4      9.7              return strip_op
+
+Total time: 0 s
+File: phase2_Trie.py
+Function: isSubstring at line 98
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    98                                               @profile      
+    99                                               def isSubstring(self,to_increase_element,id_to_incr,comparison_holder,phase1_holder_holder_copy):
+   100                                                   combined_list=comparison_holder[id_to_incr]+phase1_holder_holder_copy[id_to_incr]
+   101                                           
+   102                                                   for idx,val in enumerate(comparison_holder[id_to_incr]):
+   103                                                       if((to_increase_element[0] in val[0]) and to_increase_element[0] != val[0]):
+   104                                                           if((to_increase_element[5] in val[5]) and to_increase_element[5] != val[5]):
+   105                                                               return True
+   106                                                   for idx,val in enumerate(phase1_holder_holder_copy[id_to_incr]):
+   107                                                       if((to_increase_element[0] in val[0]) and to_increase_element[0] != val[0]):
+   108                                                           if((to_increase_element[5] in val[2]) and to_increase_element[5] != val[2]):
+   109                                                               return True   
+   110                                                           
+   111                                                   return False
+
+Total time: 0 s
+File: phase2_Trie.py
+Function: calculate_pmi at line 113
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   113                                               @profile
+   114                                               def calculate_pmi(self,big,x1,x2,total):
+   115                                                   big__= float(big/total)
+   116                                                   x1__=float(x1/total)
+   117                                                   x2__=float(x2/total)
+   118                                                   pmi= math.log(big__/(x1__*x2__),2.71828182845)
+   119                                                   pklv=big__*pmi
+   120                                                   #return (1/(1+math.exp(-1*pmi)))
+   121                                                   npmi= pmi/(-1.0*(math.log(big__,2.71828182845)))
+   122                                                   return npmi,pklv
+
+Total time: 0 s
+File: phase2_Trie.py
+Function: transfer at line 127
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   127                                               @profile
+   128                                               def transfer(self,to_keep,to_split,classifier_results):
+   129                                                   #transfering from to_keep to to_split
+   130                                                   #print(classifier_results)
+   131                                                   
+   132                                                   b_star_list=[]
+   133                                                   normal_b_list=[]
+   134                                           
+   135                                                   classifier_results=classifier_results.reset_index()
+   136                                           
+   137                                                   g_star_list=[]
+   138                                                   normal_g_list=[]
+   139                                           
+   140                                                   #to_split operations
+   141                                                   normal_b_list=classifier_results[(classifier_results.pred_prob2< 0.4)& (classifier_results.candidate.isin(to_split))]
+   142                                                   normal_a_list_split=classifier_results[(classifier_results.pred_prob2>= 0.4)& (classifier_results.pred_prob2<0.8) & (classifier_results.candidate.isin(to_split))]
+   143                                           
+   144                                                   normal_b_list= normal_b_list.candidate.tolist()
+   145                                                   normal_a_list_split= normal_a_list_split.candidate.tolist()
+   146                                           
+   147                                                   merger=[]
+   148                                                   merger.extend(normal_a_list_split)
+   149                                                   merger.extend(normal_b_list)
+   150                                                   b_star_list = [x for x in to_split if x not in merger ]
+   151                                           
+   152                                                   #to_keep operations
+   153                                                   normal_g_list=classifier_results[(classifier_results.pred_prob2> 0.8)& (classifier_results.candidate.isin(to_keep))]
+   154                                                   normal_a_list_keep=classifier_results[(classifier_results.pred_prob2>= 0.4)& (classifier_results.pred_prob2<0.8) & (classifier_results.candidate.isin(to_keep))]
+   155                                           
+   156                                                   normal_a_list_keep= normal_a_list_keep.candidate.tolist()
+   157                                                   normal_g_list=normal_g_list.candidate.tolist()
+   158                                           
+   159                                           
+   160                                                   merger2=[]
+   161                                                   merger2.extend(normal_a_list_keep)
+   162                                                   merger2.extend(normal_g_list)
+   163                                           
+   164                                                   g_star_list= [x for x in to_keep if x not in merger2 ]
+   165                                           
+   166                                           
+   167                                                   append_to_split_list=classifier_results[(classifier_results.pred_prob2< 0.4)& (classifier_results.candidate.isin(to_keep))]
+   168                                           
+   169                                                   #stay_same_keep=classifier_results[~((classifier_results.pred_prob2< 0.4)& (classifier_results.candidate.isin(to_keep)))]
+   170                                                   append_to_split_list=append_to_split_list.candidate.tolist()
+   171                                                   to_keep=[candidate for candidate in to_keep if candidate not in append_to_split_list]
+   172                                                   to_split.extend(append_to_split_list)
+   173                                                   #print(len(to_split),len(to_keep))
+   174                                           
+   175                                                   #transfering from to_split to to_keep
+   176                                                   append_to_keep_list=classifier_results[(classifier_results.pred_prob2> 0.8)& (classifier_results.candidate.isin(to_split))]
+   177                                                   #appending into to keep list
+   178                                           
+   179                                                   append_to_keep_list=append_to_keep_list.candidate.tolist()
+   180                                                   #print(append_to_keep_list)
+   181                                           
+   182                                                   to_split=[candidate for candidate in to_split if candidate not in append_to_keep_list]
+   183                                                   to_keep.extend(append_to_keep_list)
+   184                                                   #print(len(to_split),len(to_keep))
+   185                                           
+   186                                                   #removing from to_split list
+   187                                           
+   188                                                   #print(len(to_split),len(to_keep))
+   189                                                   #
+   190                                                   merge_split_keep=[]
+   191                                                   merge_split_keep.extend(to_keep)
+   192                                                   merge_split_keep.extend(to_split)
+   193                                           
+   194                                                   to_b=classifier_results[(classifier_results.pred_prob2<= 0.4)& (~(classifier_results.candidate.isin(merge_split_keep)))]
+   195                                                   to_g=classifier_results[(classifier_results.pred_prob2>= 0.8)& (~(classifier_results.candidate.isin(merge_split_keep)))]
+   196                                                   to_a=classifier_results[(classifier_results.pred_prob2> 0.4)& (classifier_results.pred_prob2<0.8)& (~(classifier_results.candidate.isin(merge_split_keep)))]
+   197                                           
+   198                                                   return normal_a_list_split,normal_a_list_keep,b_star_list,normal_b_list,g_star_list,normal_g_list,to_b,to_g,to_a
+
+Total time: 0 s
+File: phase2_Trie.py
+Function: verify at line 200
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   200                                               @profile
+   201                                               def verify(self, subsequence, CTrie):
+   202                                                   return CTrie.__contains__(subsequence)
+
+Total time: 0 s
+File: phase2_Trie.py
+Function: check_sequence at line 205
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   205                                               @profile
+   206                                               def check_sequence(self, sequence, l, CTrie):
+   207                                                   result=[]
+   208                                                   subsequence_length=l
+   209                                                   while(subsequence_length>0):
+   210                                                       shift=len(sequence)-subsequence_length
+   211                                                       verified_subsequence=[]
+   212                                                       verified=False
+   213                                                       for i in range(0,shift+1):
+   214                                                           list1=sequence[i:(i+subsequence_length)]
+   215                                                           text=' '.join(str(e[0]) for e in list1)
+   216                                                           subsequence=(self.normalize(text)).split()
+   217                                                           #print("search for", subsequence)
+   218                                                           if self.verify(subsequence, CTrie):
+   219                                                               verified_subsequence.append(i)
+   220                                                               verified_subsequence.append(i+subsequence_length)
+   221                                                               #print(subsequence)
+   222                                                               #print(subsequence,[(verified_subsequence[0]-0),(int(sequence[-1][1])-verified_subsequence[1])])
+   223                                                               verified=True
+   224                                                               break
+   225                                                       if(verified):
+   226                                                           result.append(sequence[verified_subsequence[0]:verified_subsequence[1]])
+   227                                                           if(verified_subsequence[0]-0)>0:
+   228                                                               subequence_to_check=sequence[0:verified_subsequence[0]]
+   229                                                               #since tokens before the starting position of the verified subsequence have already been checked for subsequences of this length
+   230                                                               partition_length=min(len(subequence_to_check),(subsequence_length-1))
+   231                                                               #print(subequence_to_check)
+   232                                                               lst=self.check_sequence(subequence_to_check,partition_length, CTrie)
+   233                                                               if(lst):
+   234                                                                   result.extend(lst)
+   235                                                           if(int(sequence[-1][1])-verified_subsequence[1])>0:
+   236                                                               subequence_to_check=sequence[(verified_subsequence[1]):]
+   237                                                               #since tokens following the end position of the verified subsequence have not been checked for subsequences of this length
+   238                                                               partition_length=min(len(subequence_to_check),(subsequence_length))
+   239                                                               #print(subequence_to_check)
+   240                                                               lst=self.check_sequence(subequence_to_check,partition_length, CTrie)
+   241                                                               if(lst):
+   242                                                                   result.extend(lst)
+   243                                                           return result
+   244                                                       else:
+   245                                                           subsequence_length-=1
+   246                                                   return result
+
+Total time: 165.253 s
+File: phase2_Trie.py
+Function: get_Candidates at line 249
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   249                                               @profile
+   250                                               def get_Candidates(self, sequence, CTrie):
+   251                                                   #print(sequence)
+   252   1256493      1330972      1.1      0.8          candidateList=[]
+   253   1256493      1144199      0.9      0.7          left=0
+   254   1256493      1107838      0.9      0.7          start_node=CTrie
+   255   1256493      1048365      0.8      0.6          last_cand="NAN"
+   256   1256493      1046334      0.8      0.6          last_cand_substr=""
+   257   1256493      1086270      0.9      0.7          reset=False
+   258   4644364      5186009      1.1      3.1          for right in range(len(sequence)):
+   259   3387871      2899452      0.9      1.8              if(reset):
+   260    422760       357367      0.8      0.2                  left=right
+   261   3387871      3317222      1.0      2.0              curr_text=sequence[right][0]
+   262   3387871      3511477      1.0      2.1              curr_pos=[sequence[right][1]]
+   263   3387871     31067791      9.2     18.8              curr=self.normalize(sequence[right][0])
+   264                                           
+   265   3387871     29770259      8.8     18.0              cand_str=self.normalize(last_cand_substr+" "+curr)
+   266   3387871      5027570      1.5      3.0              last_cand_sequence=sequence[left:(right+1)]
+   267   3387871     10002386      3.0      6.1              last_cand_text=' '.join(str(e[0]) for e in last_cand_sequence)
+   268   3387871     34358793     10.1     20.8              last_cand_text_norm=self.normalize(' '.join(str(e[0]) for e in last_cand_sequence))
+   269                                                       #print("==>",cand_str,last_cand_text)
+   270   3387871      5524311      1.6      3.3              if ((curr in start_node.path.keys())&(cand_str==last_cand_text_norm)):
+   271                                                           #print("=>",cand_str,last_cand_text)
+   272   2027953      1799571      0.9      1.1                  reset=False
+   273   2027953      2551300      1.3      1.5                  if (start_node.path[curr].value_valid):
+   274                                                               #print(last_cand_text)
+   275   1500395      2822298      1.9      1.7                      last_cand_pos=[e[1] for e in last_cand_sequence]
+   276   1500395      1306220      0.9      0.8                      last_cand=last_cand_text
+   277   2027953      1974890      1.0      1.2                  start_node=start_node.path[curr]
+   278   2027953      1757189      0.9      1.1                  last_cand_substr=cand_str
+   279                                                       else:
+   280                                                           #print("=>",cand_str,last_cand_text)
+   281   1359918      1273214      0.9      0.8                  if(last_cand!="NAN"):
+   282    623739       703228      1.1      0.4                      candidateList.append((last_cand,last_cand_pos))
+   283   1359918      1212565      0.9      0.7                  last_cand="NAN"
+   284   1359918      1325040      1.0      0.8                  if(start_node!=CTrie):
+   285    917833       798388      0.9      0.5                      start_node=CTrie
+   286    917833       823652      0.9      0.5                      last_cand_substr=""
+   287    917833      1144712      1.2      0.7                      if curr in start_node.path.keys():
+   288                                                                   #print("here",curr)
+   289    595741       517741      0.9      0.3                          reset=False
+   290    595741       760094      1.3      0.5                          if start_node.path[curr].value_valid:
+   291    475802       422766      0.9      0.3                              last_cand_text=curr_text
+   292    475802       412156      0.9      0.2                              last_cand_pos=curr_pos
+   293    475802       406752      0.9      0.2                              last_cand=curr
+   294    595741       511679      0.9      0.3                          left=right
+   295    595741       578568      1.0      0.4                          start_node=start_node.path[curr]
+   296    595741       546170      0.9      0.3                          last_cand_substr=curr
+   297                                                               else:
+   298    322092       276796      0.9      0.2                          reset=True
+   299                                                           else:
+   300    442085       382394      0.9      0.2                      reset=True
+   301                                                   #print(last_cand)
+   302   1256493      1179504      0.9      0.7          if(last_cand!="NAN"):
+   303    823096       943742      1.1      0.6              candidateList.append((last_cand,last_cand_pos))
+   304   1256493      1035359      0.8      0.6          return candidateList
+
+Total time: 0 s
+File: phase2_Trie.py
+Function: append_rows at line 307
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   307                                               @profile
+   308                                               def append_rows(self,df_holder):
+   309                                               
+   310                                                   df = pd.DataFrame(df_holder)
+   311                                                   #self.data_frame_holder=self.data_frame_holder.append(df,ignore_index=True)
+   312                                                   #self.data_frame_holder=self.data_frame_holder.reset_index(drop=True)
+   313                                                   #print(len(self.data_frame_holder))
+   314                                                   return df
+
+Total time: 0 s
+File: phase2_Trie.py
+Function: join_token_tuples at line 318
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   318                                               @profile
+   319                                               def join_token_tuples(self,list_of_tuples):
+   320                                                   #print(string.punctuation)
+   321                                                   combined_str=(' '.join(tuple[0] for tuple in list_of_tuples)).lstrip(string.punctuation).rstrip(string.punctuation).strip()
+   322                                                   combined_pos='*'.join(str(tuple[1]) for tuple in list_of_tuples)
+   323                                                   combined_tuple=(combined_str,combined_pos,list_of_tuples[0][2],list_of_tuples[0][3],list_of_tuples[0][4],list_of_tuples[0][5],list_of_tuples[0][6])
+   324                                                   return combined_tuple
+
+Total time: 11.4863 s
+File: phase2_Trie.py
+Function: all_capitalized at line 328
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   328                                               @profile
+   329                                               def all_capitalized(self,candidate):
+   330    562909       296153      0.5      2.6          strip_op=candidate
+   331    562909       626399      1.1      5.5          strip_op=(((strip_op.lstrip(string.punctuation)).rstrip(string.punctuation)).strip())
+   332    562909       438007      0.8      3.8          strip_op=(strip_op.lstrip('“‘’”')).rstrip('“‘’”')
+   333    562909      6020344     10.7     52.4          strip_op= self.rreplace(self.rreplace(self.rreplace(strip_op,"'s","",1),"’s","",1),"’s","",1)
+   334    562909       493663      0.9      4.3          prep_article_list=prep_list+article_list
+   335    562909       459987      0.8      4.0          word_list=strip_op.split()
+   336   1560470      1137692      0.7      9.9          for i in range(len(word_list)):
+   337   1062807       557705      0.5      4.9              word=word_list[i]
+   338   1062807       686220      0.6      6.0              if(word[0].isupper()):
+   339    990752       442609      0.4      3.9                  continue
+   340                                                       else:
+   341     72055        56892      0.8      0.5                  if(word in prep_article_list):
+   342      6809         3802      0.6      0.0                      if (i!=0):
+   343      6606         2842      0.4      0.0                          continue
+   344                                                               else:
+   345       203          112      0.6      0.0                          False
+   346                                                           else:
+   347     65246        37738      0.6      0.3                      return False
+   348    497663       226123      0.5      2.0          return True
+
+Total time: 23.2396 s
+File: phase2_Trie.py
+Function: check_feature_update at line 352
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   352                                               @profile
+   353                                               def check_feature_update(self, candidate_tuple,non_discriminative_flag):
+   354                                                   #print(candidate_tuple)
+   355   1446835       674282      0.5      2.9          if(non_discriminative_flag):
+   356     73569        31909      0.4      0.1              return 7
+   357   1373266       657892      0.5      2.8          candidateText=candidate_tuple[0]
+   358   1373266       628787      0.5      2.7          position=candidate_tuple[1]
+   359   1373266      1180070      0.9      5.1          word_list=candidateText.split()
+   360   1373266       842246      0.6      3.6          if candidateText.islower():
+   361    781357       308475      0.4      1.3              return 6
+   362    591909       326755      0.6      1.4          elif candidateText.isupper():
+   363     29000        11942      0.4      0.1              return 5
+   364    562909       367488      0.7      1.6          elif (len(word_list)==1):
+   365                                                       #start-of-sentence-check
+   366    193080      5431278     28.1     23.4              if self.all_capitalized(candidateText):
+   367    192727       199210      1.0      0.9                  if(int(position[0])==0):
+   368     86684        35139      0.4      0.2                      return 4
+   369                                                           else:
+   370    106043        43167      0.4      0.2                      return 2
+   371                                                       else:
+   372       353          140      0.4      0.0                  return 3
+   373                                                   else:
+   374    369829     12352801     33.4     53.2              if(self.all_capitalized(candidateText)):
+   375    304936       120924      0.4      0.5                  return 2
+   376                                                       else:
+   377     64893        27057      0.4      0.1                  return 3
+
+Total time: 50.6737 s
+File: phase2_Trie.py
+Function: update_Candidatedict at line 379
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   379                                               @profile
+   380                                               def update_Candidatedict(self,candidate_tuple,non_discriminative_flag):
+   381   1446835       780767      0.5      1.5          candidateText=candidate_tuple[0]
+   382                                                   #print(candidate_tuple)
+   383   1446835     12038925      8.3     23.8          normalized_candidate=self.normalize(candidateText)
+   384   1446835       609935      0.4      1.2          feature_list=[]
+   385   1446835      1472401      1.0      2.9          if(normalized_candidate in self.CandidateBase_dict.keys()):
+   386   1440246       923275      0.6      1.8              feature_list=self.CandidateBase_dict[normalized_candidate]
+   387                                                   else:
+   388      6589         6634      1.0      0.0              feature_list=[0]*9
+   389      6589         4346      0.7      0.0              feature_list[0]=self.counter
+   390      6589         8333      1.3      0.0              feature_list[1]=len(normalized_candidate.split())
+   391   1446835     31960442     22.1     63.1          feature_to_update=self.check_feature_update(candidate_tuple,non_discriminative_flag)
+   392                                                   #print(candidateText,feature_to_update)
+   393   1446835      1161392      0.8      2.3          feature_list[feature_to_update]+=1
+   394   1446835       848852      0.6      1.7          feature_list[8]+=1
+   395   1446835       858405      0.6      1.7          self.CandidateBase_dict[normalized_candidate]=feature_list
+
+Total time: 672.188 s
+File: phase2_Trie.py
+Function: extract at line 400
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   400                                               @profile
+   401                                               def extract(self,TweetBase,CTrie,z_score_threshold):
+   402                                           
+   403                                           
+   404         9           52      5.8      0.0          if(self.counter==0):
+   405                                                       #output_queue
+   406         1         1633   1633.0      0.0              self.data_frame_holder_OQ=pd.DataFrame([], columns=['index','tweetID', 'sentID', 'hashtags', 'user', 'TweetSentence','phase1Candidates', '2nd Iteration Candidates'])
+   407         1         1340   1340.0      0.0              self.incomplete_tweets=pd.DataFrame([], columns=['index','tweetID', 'sentID', 'hashtags', 'user', 'TweetSentence','phase1Candidates', '2nd Iteration Candidates'])
+   408         1            4      4.0      0.0              self.CandidateBase_dict= {}
+   409         1            2      2.0      0.0              self.good_candidates=[]
+   410         1            2      2.0      0.0              self.bad_candidates=[]
+   411                                           
+   412                                           
+   413         9        18370   2041.1      0.0          data_frame_holder=pd.DataFrame([], columns=['index','tweetID', 'sentID', 'hashtags', 'user', 'TweetSentence','phase1Candidates', '2nd Iteration Candidates'])
+   414         9           29      3.2      0.0          phase1_holder_holder=[]
+   415         9           23      2.6      0.0          df_holder=[]
+   416         9           20      2.2      0.0          candidateBase_holder=[]
+   417                                           
+   418                                                   #this has to be changed to an append function since IPQ already has incomplete tweets from prev batch  
+   419         9       215477  23941.9      0.0          immediate_processingQueue = pd.concat([TweetBase, self.incomplete_tweets])
+   420                                           
+   421                                           
+   422         9          157     17.4      0.0          print('In Phase 2',len(immediate_processingQueue))
+   423                                                   #immediate_processingQueue=immediate_processingQueue.reset_index(drop=True)
+   424         9          327     36.3      0.0          combined_list_here=([]+list(cachedStopWords)+chat_word_list+day_list+month_list+article_list+prep_list)
+   425         9         4322    480.2      0.0          combined_list_filtered=list(filter(lambda word: word not in (prep_list+article_list+month_list), combined_list_here))
+   426                                                   #--------------------------------------PHASE II---------------------------------------------------
+   427    475778     72841980    153.1     10.8          for index, row in immediate_processingQueue.iterrows():
+   428                                           
+   429                                                       #phase 1 candidates for one sentence
+   430    475770      1342670      2.8      0.2              phase1_holder=[]
+   431                                           
+   432    475770     14894171     31.3      2.2              tweetText=str(row['TweetSentence'])
+   433                                                       #print(tweetText)
+   434    475770     11035146     23.2      1.6              sentID=str(row['sentID'])
+   435    475770     10078836     21.2      1.5              tweetID=str(row['tweetID'])
+   436    475770      9793441     20.6      1.5              phase1Candidates=str(row['phase1Candidates'])
+   437    475770      9644951     20.3      1.4              hashtags=str(row['hashtags'])
+   438    475770      9604585     20.2      1.4              user=str(row['user'])
+   439    475770      9755759     20.5      1.5              batch=str(row['entry_batch'])
+   440    475770     11572059     24.3      1.7              time=str(row['start_time'])
+   441    475770      1186069      2.5      0.2              non_discriminative_flag=False
+   442                                           
+   443                                           
+   444    475770      1178071      2.5      0.2              if(phase1Candidates!="nan"):
+   445    425188      1412786      3.3      0.2                  phase1Raw=phase1Candidates.split("||")
+   446    425188      1720446      4.0      0.3                  phase1Raw = list(filter(None, phase1Raw))
+   447                                           
+   448                                           
+   449    928988      2386958      2.6      0.4                  for entities_with_loc in phase1Raw:
+   450    503800      1468940      2.9      0.2                      entity_to_store=entities_with_loc.split("::")[0]
+   451                                                               #print(entity_to_store)
+   452    503800      1360518      2.7      0.2                      position=entities_with_loc.split("::")[1]
+   453                                                               #print(position)
+   454    503800      1336950      2.7      0.2                      phase1_holder.append((entity_to_store,position))
+   455                                           
+   456    425188     13480648     31.7      2.0                  phase1_holder_holder.append(copy.deepcopy(phase1_holder))
+   457    425188      1143265      2.7      0.2                  phase1_holder.clear()
+   458                                           
+   459                                                       else:
+   460     50582       120168      2.4      0.0                  non_discriminative_flag=True
+   461     50582       140650      2.8      0.0                  phase1_holder_holder.append([])
+   462                                           
+   463                                           
+   464                                                       #print(sen_index1)[ ()/,;:!?…-]
+   465                                                       #splitList=tweetText.split()
+   466    475770      5667154     11.9      0.8              splitList=re.split('[ ()/,;:!?…-]',tweetText)
+   467                                                       #print(tweetText,splitList)
+   468                                                       #wordlstU=list(filter(lambda word: ((word!="")&(word.strip(string.punctuation).strip().lower() not in cachedStopWords)), splitList))
+   469    475770      3662637      7.7      0.5              splitList=list(map(lambda word: word.strip(), splitList))
+   470    475770      3184301      6.7      0.5              tweetWordList=list(filter(lambda word: word!="", splitList))
+   471                                                       #print(tweetWordList)
+   472    475770      2993617      6.3      0.4              tweetWordList= [(token,idx) for idx,token in enumerate(tweetWordList)]
+   473                                                       
+   474                                           
+   475                                           
+   476                                                       #combined_list_here=([]+list(cachedStopWords)+prep_list+chat_word_list+article_list+day_list+month_list)
+   477                                                       
+   478    475770     28176403     59.2      4.2              tweetWordList_stopWords=list(filter (lambda word: ((((word[0].strip()).strip(string.punctuation)).lower() in combined_list_filtered)|(word[0].strip() in string.punctuation)|(word[0].startswith('@'))), tweetWordList))
+   479                                           
+   480                                           
+   481                                                       # phase 2 candidate tuples without stopwords for a sentence
+   482    475770      4699981      9.9      0.7              c=[(y[0],str(y[1]),tweetID,sentID,'ne',batch,time) for y  in tweetWordList if y not in tweetWordList_stopWords ]
+   483                                                       #c=[(y[0],str(y[1])) for y  in tweetWordList if y not in tweetWordList_stopWords ]
+   484                                           
+   485                                                       #print(c)
+   486    475770      1371199      2.9      0.2              sequences=[]
+   487   1732263      5678382      3.3      0.8              for k, g in groupby(enumerate(c), lambda element: element[0]-int(element[1][1])):
+   488   1256493      6560334      5.2      1.0                  sequences.append(list(map(itemgetter(1), g)))
+   489                                           
+   490    475770      1315816      2.8      0.2              ne_candidate_list=[]
+   491   1732263      4425901      2.6      0.7              for sequence in sequences:
+   492                                                           '''print(sequence)
+   493                                                           seq_candidates=self.check_sequence(sequence, len(sequence), CTrie)'''
+   494                                           
+   495   1256493    249414064    198.5     37.1                  seq_candidate_list=self.get_Candidates(sequence, CTrie)
+   496   1256493      3083440      2.5      0.5                  if(seq_candidate_list):
+   497                                                               '''seq_candidate_list= list(map(lambda e: self.join_token_tuples(e) ,seq_candidates))
+   498                                                               print("====",seq_candidate_list)'''
+   499                                           
+   500                                                               
+   501   2448011      6266191      2.6      0.9                      for candidate_tuple in seq_candidate_list:
+   502                                                                   #inserts into CandidateBase and updates the correct frequency feature based on Capitalization pattern
+   503   1446835     63319365     43.8      9.4                          self.update_Candidatedict(candidate_tuple,non_discriminative_flag)
+   504   1001176      2704032      2.7      0.4                      ne_candidate_list.extend(seq_candidate_list)
+   505                                                       
+   506                                                       
+   507                                                       #phase2_candidates='||'.join(e[0] for e in ne_candidate_list)
+   508                                           
+   509    475770     12964558     27.2      1.9              phase2_candidates=[self.normalize(e[0]) for e in ne_candidate_list]
+   510                                           
+   511                                                       #print(phase1Candidates,"====",phase2_candidates)
+   512    475769      1724145      3.6      0.3              dict1 = {'tweetID':tweetID, 'sentID':sentID, 'hashtags':hashtags, 'user':user, 'TweetSentence':tweetText, 'phase1Candidates':phase1Candidates,'2nd Iteration Candidates':phase2_candidates}
+   513                                           
+   514    475769      1213323      2.6      0.2              df_holder.append(dict1)
+   515                                                       #-------------------------------------------------------------------END of 1st iteration: RESCAN+CANDIDATE_UPDATION-----------------------------------------------------------
+   516                                           
+   517                                                   #df_holder is the immediate processing queue of the current batch converted into a dataframe---> data_frame_holder
+   518                                                   #self.append_rows(df_holder)
+   519         8       879518 109939.8      0.1          data_frame_holder = pd.DataFrame(df_holder)
+   520                                           
+   521                                                   #convert the CandidateFeatureBase from a dictionary to dataframe---> CandidateFeatureBaseDF
+   522         8           45      5.6      0.0          candidateBaseHeaders=['candidate', 'batch', 'length','cap','substring-cap','s-o-sCap','all-cap','non-cap','non-discriminative','cumulative']
+   523         8        72277   9034.6      0.0          candidate_featureBase_DF=pd.DataFrame.from_dict(self.CandidateBase_dict, orient='index')
+   524         8         1317    164.6      0.0          candidate_featureBase_DF.columns=candidateBaseHeaders[1:]
+   525         8           33      4.1      0.0          candidate_featureBase_DF.index.name=candidateBaseHeaders[0]
+   526         8         8635   1079.4      0.0          candidate_featureBase_DF = candidate_featureBase_DF.reset_index(drop=False)
+   527                                                   #print(candidate_featureBase_DF.head(5))
+   528                                           
+   529                                                   #filtering test set based on z_score
+   530                                           
+   531         8         1277    159.6      0.0          mert1=candidate_featureBase_DF['cumulative'].as_matrix()
+   532                                                   #frequency_array = np.array(list(map(lambda val: val[0], sortedCandidateDB.values())))
+   533         8         1249    156.1      0.0          zscore_array1=stats.zscore(mert1)
+   534                                           
+   535                                           
+   536                                           
+   537         8         3802    475.2      0.0          candidate_featureBase_DF['Z_ScoreUnweighted']=zscore_array1
+   538                                           
+   539                                           
+   540         8        11873   1484.1      0.0          candidate_featureBase_DF = candidate_featureBase_DF[candidate_featureBase_DF['Z_ScoreUnweighted'] > z_score_threshold]
+   541                                           
+   542                                           
+   543                                           
+   544         8        84351  10543.9      0.0          candidate_featureBase_DF['class']=''
+   545                                           
+   546                                                   '''
+   547                                                   contains code for candidate classification
+   548                                                   initialize immediate_processingQueue for phase2 of next batch
+   549                                                   VERIFICATION MODULE: START OF 2nd ITERATION
+   550                                                   -----puts tweet into output queue or IPQ
+   551                                                   '''
+   552                                           
+   553                                           
+   554         8        91791  11473.9      0.0          my_classifier= svm.SVM1('training.csv')
+   555         8       157517  19689.6      0.0          candidate_featureBase_DF=my_classifier.run(candidate_featureBase_DF,z_score_threshold)
+   556                                           
+   557                                           
+   558         8      3102184 387773.0      0.5          candidate_featureBase_DF=self.set_readable_labels(candidate_featureBase_DF)
+   559                                                   
+   560                                           
+   561         8       435109  54388.6      0.1          candidate_featureBase_DF.to_csv("candidate_featureBase_DF.csv", sep=',', encoding='utf-8')
+   562                                           
+   563                                           
+   564         8     68559676 8569959.5     10.2          self.incomplete_tweets=self.get_incomplete_tweets_frame(data_frame_holder,candidate_featureBase_DF)
+   565                                           
+   566         8      1414696 176837.0      0.2          self.incomplete_tweets.to_csv("incomplete_tweets.csv", sep=',', encoding='utf-8')
+   567                                           
+   568                                           
+   569                                           
+   570         8      1039311 129913.9      0.2          self.incomplete_tweets.drop('2nd Iteration Candidates', axis=1, inplace=True)
+   571                                           
+   572                                           
+   573                                           
+   574                                                   #final operations
+   575         8           64      8.0      0.0          self.counter=self.counter+1
+   576         8       136610  17076.2      0.0          del(df_holder)
+   577         8        21199   2649.9      0.0          del(immediate_processingQueue)
+   578                                                   #print(len(self.CandidateBase_dict))
+   579                                                   #return self.data_frame_holder_OQ
+   580         8           47      5.9      0.0          return
+
